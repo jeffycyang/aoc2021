@@ -30,29 +30,59 @@ function isBalanced(s) {
   return { bool: true };
 }
 
+const returnCompletion = s => {
+  const stack = []
+
+  for (let i = 0; i < s.length; i++) {
+    if (
+      s[i] === '('
+      || s[i] === '['
+      || s[i] === '{'
+      || s[i] === '<'
+    ) {
+      stack.push(s[i]);
+    } else {
+      if (s[i] !== dict[stack.pop()]) return { bool: false, ind: i };
+    }
+  }
+
+  return stack.map(c => dict[c]);
+}
+
 const points = {
-  ')': 3,
-  ']': 57,
-  '}': 1197,
-  '>': 25137
+  ')': 1,
+  ']': 2,
+  '}': 3,
+  '>': 4
 }
 
 const solve = (input) => {
-  let score = 0;
+  let scores = [];
+
+  const incs = [];
 
   for (let i = 0; i < input.length; i++) {
     console.log('inp', input[i]);
     const { bool, ind } = isBalanced(input[i]);
-    if (!bool) {
-     const char = input[i][ind];
-     console.log('char', char);
-     if (!isNaN(points[char])) {
-      score += points[char];
-     }
+    if (bool) {
+      incs.push(input[i]);
     }
   }
 
-  console.log('score', score);
+  incs.forEach(inc => {
+    const comp = returnCompletion(inc);
+    console.log('comp', comp);
+    let total = 0;
+    comp.reverse().forEach(c => {
+      total = (total * 5) + points[c];
+    });
+    scores.push(total);
+  });
+
+  scores.sort((a, b) => a - b);
+  const mid = (scores.length - 1)/2;
+
+  console.log('score', scores[mid]);
 }
 
 solve(advInput);
