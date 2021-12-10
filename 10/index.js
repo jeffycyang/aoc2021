@@ -9,9 +9,9 @@ const dict = {
   '[': ']',
   '{': '}',
   '<':'>'
-}
+};
 
-function isBalanced(s) {
+const isBalanced = (s) => {
   const stack = []
 
   for (let i = 0; i < s.length; i++) {
@@ -28,14 +28,14 @@ function isBalanced(s) {
   }
 
   return { bool: true };
-}
+};
 
 const points = {
   ')': 3,
   ']': 57,
   '}': 1197,
   '>': 25137
-}
+};
 
 const solve = (input) => {
   let score = 0;
@@ -53,7 +53,7 @@ const solve = (input) => {
   }
 
   console.log('score', score);
-}
+};
 
 solve(advInput);
 
